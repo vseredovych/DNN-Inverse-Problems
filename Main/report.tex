@@ -1,0 +1,262 @@
+% ============================================ %
+
+\documentclass[14pt,a4paper]{extarticle}
+%\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+
+
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{amsmath}
+% \operatorname*{argmin}_\theta f(x)
+% \operatorname*{arg\,max}_\theta f(x)
+
+
+
+\usepackage[active]{srcltx}
+\usepackage[final]{pdfpages}
+
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{verbatim}
+
+% ============================================ %
+
+%\pagestyle{empty}                     %нумерацiя сторiнок i т.д.
+\pagestyle{headings}                   %нумерацiя сторiнок вгорi зправа i т.д.
+%\renewcommand{\baselinestretch}{1.5}   %мiжстрiчковий інтервал
+%\parindent=7.5mm                      %абзацний відступ
+\righthyphenmin=2                     %перенос 2 останніх букв
+\pagenumbering{arabic}
+\tolerance=400
+\mathsurround=2pt
+\hfuzz=1.5pt
+
+% ============================================ %
+
+\hoffset=-0.5cm        %+2.5cm -- вiдступ вiд лiвого краю
+\voffset=-1.5cm        %+2.5cm -- вiдступ зверху
+\oddsidemargin=0.1cm   %ліве поле
+\topmargin=0.1cm       %верхнє поле
+\headheight=0.5cm      %висота верхнього колонтитулу
+\footskip=1cm          %висота нижнього колонтитулу
+\headsep=0.3cm         %відступ від колонт. до тексту
+\textwidth=17cm        %ширина сторінки
+\textheight=25.5cm     %висота сторінки
+
+% ============================================ %
+	
+\newcounter{e}
+\setcounter{e}{0}
+\newcommand{\n}{\refstepcounter{e} (\arabic{e})}
+
+\newcounter{pic}
+\setcounter{pic}{0}
+\newcommand{\pic}[1]{\refstepcounter{pic} \vspace{-0.3cm}\textit{Рисунок \arabic{pic}\label{#1}.}}
+
+\newcounter{tabl}
+\setcounter{tabl}{0}
+\newcommand{\tabl}[1]{\refstepcounter{tabl} \vspace{-0.3cm}\textit{Таблиця \arabic{tabl}\label{#1}.}}
+
+\newcounter{dod}
+\setcounter{dod}{0}
+\newcommand{\dod}[1]{\refstepcounter{dod} \textit{Додаток \arabic{dod}\label{#1}.}}
+
+
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{defn}[theorem]{Означення}
+\newtheorem{lemma}[theorem]{Лема}
+
+\newcommand{\proof}{\textit{Доведення. \space}}
+% \setcounter{page}{1}
+% \setcounter{section}{1}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+% \newcommand{\unknownx}{	\boldsymbol{$1}^{\star}}
+% \newcommand{\bt}[1]{\textbf{#1}}
+
+% ============================================ %
+	
+% bibliography
+\usepackage[
+	backend=biber,
+	style=numeric,
+	sorting=none
+]{biblatex}
+\addbibresource{resources/bibliography.bibtex}
+
+% ============================================ %
+
+\begin{document}
+	% ============================================ %
+	\begin{titlepage}%
+		\begin{center}
+			{\textbf{ЛЬВІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ \\ ІМЕНІ ІВАНА ФРАНКА}}\par
+			{Факультет прикладної математики та інформатики \\ Кафедра обчислювальної математики}\par
+			\begin{center}
+				
+			\end{center}
+			\vspace{25mm}
+			{\textbf{\huge{Курсова робота}}}\par
+			\vspace{5mm}
+			{\large{Використання глибокого навчання для обернених задач}}\par
+			\vspace{5mm}
+			{}\par %subtitle
+		\end{center}
+		
+		\vfill
+		\vskip80pt
+		
+		\begin{flushleft}
+			\hskip 8cm 
+			Виконав студент IV курсу групи
+			\\ \hskip8cm
+			ПМп-41 напрямку підготовки 
+			\\ \hskip8cm
+			(спеціальності)
+			\\ \hskip8cm
+			113 -- ``Прикладна математика''
+			\\ \hskip8cm
+			Середович В.B.
+		\end{flushleft}
+		\begin{flushleft}
+			\hskip8cm 
+			Курівник: Музичук Ю.А
+		\end{flushleft}
+		
+		\vfill
+		
+		\begin{center}
+			\large
+			Львів - 2020
+		\end{center}
+	\end{titlepage}
+
+	% ============================================ %
+	% Зміст
+	\addtocontents{toc}{\protect\thispagestyle{empty}}
+	\tableofcontents
+
+	% ============================================ %
+	% Вступ
+	
+	\newpage
+	\thispagestyle{empty}
+	\addcontentsline{toc}{section}{Вступ}
+	\section*{Вступ}
+	
+	Вступ про типи обернені задач та глибоке навчання
+	\\
+	
+	Оберненими задачами називають такі задачі, коли необхідно відновити параметри які характеризують деяку модель з використанням непрямих спостережень. До них можна віднести багото по відновленню зображень зменшення кількості шуму (deblurring) чи заповнення втрачених даних (inpainting).
+
+	% ============================================ %
+	
+	\newpage
+	\thispagestyle{empty}
+	\section{Постановка задачі} 
+	Оберненими задачами будемо вважати такі задачі, в яких невідомим є $n-$ піксельне зображення $\boldsymbol{x}^{\star} \in \mathbb{R}^{n}$ яке було отримане з $m$ вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ з певним рівнем шуму $\boldsymbol{\varepsilon}$
+	$$
+	\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}^{\star}\right)+\boldsymbol{\varepsilon}
+	$$
+	
+	де $\mathcal{A}$ - це прямий оператор вимірювання та $\varepsilon$ є вектором шуму. Метою є відновлення $x^{\star}$ з $y$. Можна розглянути більш загальний випадок моделі неадитивної шуму, який має вигляд 
+	$$
+	\boldsymbol{y}=\mathcal{N}\left(\mathcal{A}\left(\boldsymbol{x}^{\star}\right)\right)
+	$$
+	де $\mathcal{N}(\cdot)$ є прикладами вибірки з шумом.
+
+	Цей процес називають некоректним або погано поставленим (ill-posed), бо реконстроювати єдиний розв'язок який задовілняє спостереження є складною або неможливою задачей за умови відсутності попередніх знаннь про дані.
+
+	Отже метою даної рототи буде розв'язання таких обернених задач з використанням моделей глибокого навчання.
+
+	
+
+	%	Метою даної роботи є дослідження ефективності різних методів атак на лінійні моделі машинного навчання, та аналіз можливих методів захисту від них.
+		
+	%	Виходячи з мети, визначеними завданнями роботи є:
+	%	\begin{itemize}
+	%		\item Реалізувати лінійну модель машинного навчання
+	%		\item Розглянути різні методи генерування змагальних прикладів
+	%		\item Застосувати атаки на створену модель та проаналізувати їх ефективність
+	%		\item Розглянути можливі методи захисту від атак
+	%	\end{itemize}
+		
+	% ============================================ %
+	\newpage
+	\thispagestyle{empty}
+	\section{Методи розв'язання обернених задач}
+
+	\subsection{Метод регуляризації}
+	
+	Якщо розподіл шуму відомий, розвязання задачі оцінки максимальної ймовірності (Maximum Likelihood), може відновити $x$
+	$$
+	\hat{\boldsymbol{x}}_{\mathrm{ML}}
+	=\underset{\boldsymbol{x}}{\arg \max{ p (\boldsymbol{y} \mid \boldsymbol{x}) }}
+	=\underset{\boldsymbol{x}}{\arg \min }-\log p(\boldsymbol{y} \mid \boldsymbol{x})
+	$$
+	де $p(\boldsymbol{y} \mid \boldsymbol{x})$ це ймовірність спостереження $\boldsymbol{y}$ за умови якщо $\boldsymbol{x}$ є справжнім зображенням.
+	
+	В залежності від умов задачі, можуть бути відомі попередні дані про те яким має бути $x$. Ці умови можуть бути використанні для формування  задачі оцінки максимальної апостеріорної ймовірності
+
+	$$
+	\hat{\boldsymbol{x}}_{\mathrm{MAP}}
+	=\underset{\boldsymbol{x}}{\arg \max{ p(\boldsymbol{x} \mid \boldsymbol{y}) }}
+	=\underset{\boldsymbol{x}}{\arg -\max{ p(\boldsymbol{y} \mid \boldsymbol{x})} } p(\boldsymbol{x})
+	=\underset{\boldsymbol{x}}{\arg \min }-\ln p(\boldsymbol{y} \mid \boldsymbol{x})-\ln p(\boldsymbol{x})
+	$$
+	Для випадку білого гаусівського шуму (AVGN), з максимальної апостеріорної ймовірності виплаває:
+	$$
+	\underset{\boldsymbol{x}}{\arg \min } \frac{1}{2}\|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}+r(\boldsymbol{x})
+	$$
+	де  $r(\boldsymbol{x})$ є пропорційним до негативного логарифмічного пріора. $\boldsymbol{x} .$ 	Прикладами такого підходу є регуляризація Тіхонова.
+	
+	% total variation
+
+	\subsection{Машинне навчання для обернених задач}
+	TODO
+	
+	% ============================================ %
+	\newpage
+	\thispagestyle{empty}
+	\section{Глибоке навчання для обернених задач}
+	
+	\subsection{Алгоритм 1}
+	TODO
+
+	\subsection{Алгоритм 2}
+	TODO
+
+	% ============================================ %
+	\newpage
+	\thispagestyle{empty}
+	\section{Реалізація та аналіз}
+	
+	\subsection{Реалізація}
+	TODO
+
+	\subsection{Аналіз}
+	TODO
+	
+	% ============================================ %		
+	\newpage
+	\thispagestyle{empty}
+	\section{Висновок}
+	TODO
+	
+	%============================================ %
+	\newpage
+	\thispagestyle{empty}
+	
+	% Deep Learning Techniques for Inverse Problems in Imaging
+	\nocite{ongie2020deep}
+		
+	% Solving ill-posed inverse problems using iterative deep neural networks
+	\nocite{Adler_2017}
+	\printbibliography[title={Бібліографія}]
+	% ============================================ %
+\end{document}
