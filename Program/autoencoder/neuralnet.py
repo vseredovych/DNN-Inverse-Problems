@@ -1,6 +1,7 @@
 import numpy as np
 import collections
 
+
 class NeuralNetwork():
     def __init__(self):
         self.layers = None
@@ -131,3 +132,7 @@ class NeuralNetwork():
             self.val_costs.append(validation_cost)
             if output_each_iter and iteration % output_each_iter == 0:
                 print(f"Iteration: {iteration}; Train loss: {train_cost}; Validation loss: {validation_cost};")
+
+    def load_layers(self, layers):
+        self.layers = layers
+        

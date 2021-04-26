@@ -1,8 +1,7 @@
 import numpy as np
 import itertools
 import collections
-
-from autoencoder import activations, losses
+import activations, losses
 
 # Layers used in this model
 class Layer(object):
