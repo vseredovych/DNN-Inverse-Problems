@@ -1,0 +1,1 @@
+{"LinearLayer_0": [784, 32], "ReluLayer_1": [], "LinearLayer_2": [32, 784], "SigmoidLayer_3": [], "MSEOutputLayer_4": []}
