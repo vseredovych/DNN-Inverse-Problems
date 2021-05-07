@@ -115,7 +115,7 @@
 			{\textbf{ЛЬВІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ \\ ІМЕНІ ІВАНА ФРАНКА}}\par
 			{Факультет прикладної математики та інформатики \\ Кафедра обчислювальної математики}\par
 			\vspace{40mm}
-			{\textbf{\huge{Курсова робота}}}\par
+			{\textbf{\huge{Кусова робота}}}\par
 			\vspace{5mm}
 			{\large{Використання глибокого навчання для обернених задач}}\par
 			\vspace{5mm}\par %subtitle
@@ -315,7 +315,7 @@
 
 	\newpage
 	\thispagestyle{empty}
-	\section{Методи глибокого навчання для обернених задач}
+	\section{Автоенкодер для розв'язування обернених задач}
 
 	Одним з методів до розв'язування обернених задач на основі глибокого навчання є нейрона мережа автоенкодер яка може використовуватись у випадку коли пряма модель $\mathcal{A}$ та чисті зображення є відомі, або коли є достатня кількість пар чистих та пошкоджених зображень для тренування нейронної мережі.
 
@@ -357,7 +357,7 @@
 
 	% ============================================ %		
 	\newpage
-	\section{Модель глибокої нейронної мережі для автоенкодера}
+	\section{Модель глибокої нейронної мережі}
 
 	Нехай маємо набір тренувальних даних:
 	\begin{equation*}
@@ -688,19 +688,39 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=1\textwidth]{resources/denoising_methods_comparation.pdf}
-		\caption{фів фів фів фів фів}
+		\caption{}
 		\label{fig:denoising-methods-comparation}
 	\end{figure}
 		
-	% ============================================ %		
+	% ============================================ %	
+		
+	% ============================================ %
+	% Вступ
+	
+	%\newpage
+	%\thispagestyle{empty}
+	%\addcontentsline{toc}{section}{Вступ}
+		
+	%\newpage
+	%\thispagestyle{empty}
+	%\addtocontents{toc}{\protect\thispagestyle{empty}}
 	\newpage
 	\thispagestyle{empty}
-	\section{Висновок}
+	\addcontentsline{toc}{section}{Висновок}
+	\section*{Висновок}
+	TODO
+	
+	\newpage
+	\thispagestyle{empty}
+	\addcontentsline{toc}{section}{Додатки}
+	\section*{Додатки}
 	TODO
 	
 	%============================================ %
+	
 	\newpage
 	\thispagestyle{empty}
+	\addcontentsline{toc}{section}{Література}
 	
 	% Deep Learning Techniques for Inverse Problems in Imaging
 	\nocite{ongie2020deep}
@@ -709,6 +729,6 @@
 	\nocite{NIPS2012_6cdd60ea}
 	\nocite{raj2019ganbased}
 	\nocite{Aggarwal_2019}
-	\printbibliography[title={Бібліографія}]
+	\printbibliography[title={Література}]
 	% ============================================ %
 \end{document}
