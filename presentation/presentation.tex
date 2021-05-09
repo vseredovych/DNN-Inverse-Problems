@@ -1,0 +1,164 @@
+\documentclass{beamer}
+
+\mode<presentation> {
+	
+	% The Beamer class comes with a number of default slide themes
+	% which change the colors and layouts of slides. Below this is a list
+	% of all the themes, uncomment each in turn to see what they look like.
+	
+	%%%\usetheme{default}
+	%\usetheme{AnnArbor}
+	%\usetheme{Antibes}
+	%\usetheme{Bergen}
+	%\usetheme{Berkeley}
+	%\usetheme{Berlin}
+	%%%\usetheme{Boadilla}
+	%\usetheme{CambridgeUS}
+	%\usetheme{Copenhagen}
+	%%%\usetheme{Darmstadt}
+	%%%\usetheme{Dresden}
+	%%%\usetheme{Frankfurt}
+	%\usetheme{Goettingen}
+	%\usetheme{Hannover}
+	%\usetheme{Ilmenau}
+	%\usetheme{JuanLesPins}
+	%\usetheme{Luebeck}
+	%\usetheme{Madrid}
+	%\usetheme{Malmoe}
+	%%%\usetheme{Marburg}
+	%%%\usetheme{Montpellier}
+	%\usetheme{PaloAlto}
+	%\usetheme{Pittsburgh}
+	%\usetheme{Rochester}
+	%\usetheme{Singapore}
+	%\usetheme{Szeged}
+	\usetheme{Warsaw}
+	
+	% As well as themes, the Beamer class has a number of color themes
+	% for any slide theme. Uncomment each of these in turn to see how it
+	% changes the colors of your current slide theme.
+	
+	%\usecolortheme{albatross}	
+	%\usecolortheme{beaver}
+	%\usecolortheme{beetle}
+	%\usecolortheme{crane}
+	%\usecolortheme{dolphin}
+	%\usecolortheme{dove}
+	%\usecolortheme{fly}
+	%\usecolortheme{lily}
+	%\usecolortheme{orchid}
+	%\usecolortheme{rose}
+	%\usecolortheme{seagull}
+	\usecolortheme{seahorse}
+	%\usecolortheme{whale}
+	%\usecolortheme{wolverine}
+	
+	%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+	\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+	
+	\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[ukrainian]{babel}
+
+\usepackage[active]{srcltx}
+\usepackage[final]{pdfpages}
+
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{verbatim}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+\numberwithin{equation}{section}
+
+%------------------------------------------------
+
+\newcommand{\tabboxl}[2]{\parbox{#1}{\vspace{0.1cm} #2 \vspace{0.1cm} }}
+
+\newcommand{\tabboxr}[2]{\parbox{#1}{\vspace{-0.3cm}
+		\begin{flushright} #2 \end{flushright} \vspace{-0.3cm} }}
+
+\newcommand{\tabboxc}[2]{\parbox{#1}{\vspace{-0.3cm}
+		\begin{center} #2 \end{center} \vspace{-0.3cm} }}
+
+\newtheorem{thm}{\protect\thmname}
+\renewcommand{\thmname}{Теорема}
+
+%------------------------------------------------
+\usepackage[
+backend=biber,
+style=numeric,
+sorting=none
+]{biblatex}
+\addbibresource{../resources/bibliography.tex}
+
+\nocite{ongie2020deep}
+\nocite{Goodfellow-et-al-2016}
+\nocite{Adler_2017}
+\nocite{NIPS2012_6cdd60ea}
+
+%------------------------------------------------
+%	TITLE PAGE
+%------------------------------------------------
+
+% The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Short title]{Використання глибокого навчання для обернених задач} 
+
+ % Your name
+\author{Середович Віктор}
+
+ % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+\institute[UCLA]
+{
+	Львівський національний університет імені Івана Франка \\
+	Факультет прикладної математики та інформатики 
+}
+
+% Date, can be changed to a custom date
+\date{\today}
+
+\begin{document}
+	%------------------------------------------------
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Зміст}
+		\tableofcontents 
+	\end{frame}
+	
+	%------------------------------------------------
+	\section{Постановка задачі} 
+	%------------------------------------------------
+	\begin{frame}
+		Оберненими задачами будемо вважати такі задачі, в яких невідомим є $n-$ піксельне зображення $\boldsymbol{x} \in \mathbb{R}^{n}$ яке було отримане з $m$ вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ відповідно до рівняння
+		\begin{block}{}
+			\begin{equation}
+				\label{eq:forward-problem}
+				\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}\right)+\boldsymbol{\varepsilon}
+			\end{equation}
+		\end{block}
+		де $\mathcal{A}$ - це прямий оператор вимірювання та $\boldsymbol{\varepsilon}$ є певним вектором шуму. Метою задачі є відновлення $x$ з $y$. 
+	\end{frame}
+	%------------------------------------------------
+	\section{asdasd}
+	%------------------------------------------------
+
+
+	%------------------------------------------------
+	\begin{frame}
+		\printbibliography[title={Література}]
+	\end{frame}
+	
+	\begin{comment}
+	
+	\end{comment}
+	
+	%------------------------------------------------
+	
+\end{document} 
