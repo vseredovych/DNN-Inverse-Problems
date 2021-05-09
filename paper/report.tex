@@ -5,23 +5,14 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[ukrainian]{babel}
-
-
-\usepackage{amssymb}
-\usepackage{physics}
-\usepackage{amsmath}
-% \operatorname*{argmin}_\theta f(x)
-% \operatorname*{arg\,max}_\theta f(x)
-
-
-
 \usepackage[active]{srcltx}
 \usepackage[final]{pdfpages}
-
 \usepackage[hidelinks]{hyperref}
 
 \usepackage{verbatim}
-
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{amsmath}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \floatname{algorithm}{Algorithm}
@@ -31,10 +22,10 @@
 
 % ============================================ %
 
-%\pagestyle{empty}                     %нумерацiя сторiнок i т.д.
-\pagestyle{headings}                   %нумерацiя сторiнок вгорi зправа i т.д.
+%\pagestyle{empty}    %нумерацiя сторiнок i т.д.
+\pagestyle{headings}    %нумерацiя сторiнок вгорi зправа i т.д.
 %\renewcommand{\baselinestretch}{1.5}   %мiжстрiчковий інтервал
-%\parindent=7.5mm                      %абзацний відступ
+%\parindent=7.5mm                     %абзацний відступ
 \righthyphenmin=2                     %перенос 2 останніх букв
 \pagenumbering{arabic}
 \tolerance=400
@@ -43,18 +34,19 @@
 
 % ============================================ %
 
-\hoffset=-0.5cm        %+2.5cm -- вiдступ вiд лiвого краю
-\voffset=-1.5cm        %+2.5cm -- вiдступ зверху
-\oddsidemargin=0.1cm   %ліве поле
-\topmargin=0.1cm       %верхнє поле
-\headheight=0.5cm      %висота верхнього колонтитулу
-\footskip=1cm          %висота нижнього колонтитулу
-\headsep=0.3cm         %відступ від колонт. до тексту
-\textwidth=17cm        %ширина сторінки
-\textheight=25.5cm     %висота сторінки
+\hoffset=-0.5cm            %+2.5cm -- вiдступ вiд лiвого краю
+\voffset=-1.5cm             %+2.5cm -- вiдступ зверху
+\oddsidemargin=0.1cm  %ліве поле
+\topmargin=0.1cm         %верхнє поле
+\headheight=0.5cm       %висота верхнього колонтитулу
+\footskip=1cm               %висота нижнього колонтитулу
+\headsep=0.3cm            %відступ від колонт. до тексту
+\textwidth=17cm            %ширина сторінки
+\textheight=25.5cm      %висота сторінки
 
 % ============================================ %
-	
+% custom commands
+
 \newcounter{e}
 \setcounter{e}{0}
 \newcommand{\n}{\refstepcounter{e} (\arabic{e})}
@@ -71,33 +63,29 @@
 \setcounter{dod}{0}
 \newcommand{\dod}[1]{\refstepcounter{dod} \textit{Додаток \arabic{dod}\label{#1}.}}
 
-
-
-
 \newtheorem{theorem}{Теорема}[section]
 \newtheorem{defn}[theorem]{Означення}
 \newtheorem{lemma}[theorem]{Лема}
 
 \newcommand{\proof}{\textit{Доведення. \space}}
-% \setcounter{page}{1}
-% \setcounter{section}{1}
-
 \numberwithin{equation}{section}
 \numberwithin{figure}{section}
 
-
-% \newcommand{\unknownx}{	\boldsymbol{$1}^{\star}}
-% \newcommand{\bt}[1]{\textbf{#1}}
-% custom commands
 \newcommand{\tran}{^{T}}
 \newcommand{\ith}{^{(i)}}
 \newcommand{\lth}{^{(l)}}
 
+\newcommand{\tabboxl}[2]{\parbox{#1}{\vspace{0.1cm} #2 \vspace{0.1cm} }}
 
+\newcommand{\tabboxr}[2]{\parbox{#1}{\vspace{-0.3cm}
+		\begin{flushright} #2 \end{flushright} \vspace{-0.3cm} }}
 
+\newcommand{\tabboxc}[2]{\parbox{#1}{\vspace{-0.3cm}
+		\begin{center} #2 \end{center} \vspace{-0.3cm} }}
 
+% \setcounter{page}{1}
+% \setcounter{section}{1}
 % ============================================ %
-	
 % bibliography
 \usepackage[
 	backend=biber,
@@ -110,57 +98,60 @@
 
 \begin{document}
 	% ============================================ %
-	\begin{titlepage}%
-		\begin{center}
-			{\textbf{ЛЬВІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ \\ ІМЕНІ ІВАНА ФРАНКА}}\par
-			{Факультет прикладної математики та інформатики \\ Кафедра обчислювальної математики}\par
-			\vspace{40mm}
-			{\textbf{\huge{Кусова робота}}}\par
-			\vspace{5mm}
-			{\large{Використання глибокого навчання для обернених задач}}\par
-			\vspace{5mm}\par %subtitle
-		\end{center}
-		
-		\vfill
-		\vskip80pt
-		
-		\begin{flushleft}
-			\hskip 8cm 
-			Виконав студент IV курсу групи
-			\\ \hskip8cm
-			ПМп-41 напрямку підготовки 
-			\\ \hskip8cm
-			(спеціальності)
-			\\ \hskip8cm
-			113 -- ``Прикладна математика''
-			\\ \hskip8cm
-			Середович В.B.
-		\end{flushleft}
-		\begin{flushleft}
-			\hskip8cm 
-			Керівник: Музичук Ю.А.
-		\end{flushleft}
-		
-		\vfill
-		
-		\begin{center}
-			\large
-			Львів - 2021
-		\end{center}
-	\end{titlepage}
+	\thispagestyle{empty}
+	\begin{center}
+		{\textbf{ЛЬВІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ \\ ІМЕНІ ІВАНА ФРАНКА}}\par
+		{Факультет прикладної математики та інформатики \\ Кафедра обчислювальної математики}\par
+		\vspace{40mm}
+		{\textbf{\huge{Курсова робота}}}\par
+		\vspace{5mm}
+		{\large{Використання глибокого навчання для обернених задач}}\par
+		\vspace{5mm}\par %subtitle
+	\end{center}
+	
+	\vfill
+	\vskip80pt
+	
+	\begin{flushleft}
+		\hskip 8cm 
+		Виконав студент IV курсу групи
+		\\ \hskip8cm
+		ПМп-41 напрямку підготовки 
+		\\ \hskip8cm
+		(спеціальності)
+		\\ \hskip8cm
+		113 -- ``Прикладна математика''
+		\\ \hskip8cm
+		Середович В.B.
+	\end{flushleft}
+	\begin{flushleft}
+		\hskip8cm 
+		Керівник: Музичук Ю.А.
+	\end{flushleft}
+	
+	\vfill
+	
+	\begin{center}
+		\large
+		Львів - 2021
+	\end{center}
+
 
 	% ============================================ %
 	% Зміст
-	\addtocontents{toc}{\protect\thispagestyle{empty}}
+	\newpage
+	\thispagestyle{empty}
+	%\addtocontents{toc}{\protect\thispagestyle{empty}}
 	\tableofcontents
 
 	% ============================================ %
-	% Вступ
-	
+	% Вступ	
 	\newpage
 	\thispagestyle{empty}
 	\addcontentsline{toc}{section}{Вступ}
 	\section*{Вступ}
+	\begin{center}\end{center}
+	
 	Оберненими задачами називають такі задачі, в яких необхідно відновити дані про деякий процес з використанням непрямих спостережень. Такі спостереження отримують за допомого певного прямого процесу який, зазвичай, є необоротнім, а отже не має єдиного розв'язку. Як наслідок, задачі такого типу можуть бути нерозв'язними без додаткової інформації про об'єкт дослідження. До таких погано обумовлених задач можна віднести багато прикладів з реальних фізичних процесів, таких як задачі сейсморозвідки на основі звукових сигналів або багато задач із зображеннями, такі як реконструкція рентгенівської або акустичної томографії, видалення шуму, збільшення розмірності, заповнення втрачених даних в зображеннях та інші. 
 	
 	Класичний підхід до розв'язання таких задач припускає наявність певної попередньої інформації про обернену задачу на основі якої будується прямий оператор та функціонал регуляризації з яких формується задача мінімізації.
@@ -239,11 +230,11 @@
 	Відповідно до постановки задачі, ми прагнемо відновити векторизоване зображення $\boldsymbol{x} \in \mathbb{R}^{n}$ з вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ у вигляді $\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}\right)+\boldsymbol{\varepsilon}$.
 
 	Якщо розподіл шуму відомий, $x$ можна відновити розв'язавши задачу оцінки максимальної ймовірності (maximum likelihood):
-	$$
-	\hat{\boldsymbol{x}}_{\mathrm{ML}}
-	= \arg \max_{\boldsymbol{x}} {p (\boldsymbol{y} | \boldsymbol{x})}
-	= \arg \min_{\boldsymbol{x}} -\log p(\boldsymbol{y} | \boldsymbol{x})
-	$$
+	\begin{equation}
+		\hat{\boldsymbol{x}}_{\mathrm{ML}}
+		= \arg \max_{\boldsymbol{x}} {p (\boldsymbol{y} | \boldsymbol{x})}
+		= \arg \min_{\boldsymbol{x}} -\log p(\boldsymbol{y} | \boldsymbol{x})
+	\end{equation}
 	де $p(\boldsymbol{y} \mid \boldsymbol{x})$ це ймовірність спостереження $\boldsymbol{y}$ за умови якщо $\boldsymbol{x}$ є справжнім зображенням.
 	
 	В залежності від умов задачі, можуть бути відомі попередні дані про те яким має бути $x$. Ці умови можна для формування  задачі оцінки максимальної апостеріорної ймовірності (maximum a posteriori), що приводить до задачі \ref{MAP}.
@@ -308,7 +299,7 @@
 		
 
 		\item \textbf{Пряма модель $\mathcal{A}$ є відома тільки частково} \newline
-		Це може статися, наприклад, коли пряма модель є параметричною, і ми знаємо або розподіл, або
+		Така ситуація можлива, наприклад, у випадку коли пряма модель є параметричною, і ми знаємо або розподіл, або
 		достатню статистику про параметри.
 
 		\item \textbf{Пряма модель $\mathcal{A}$ є невідома} \newline
@@ -329,7 +320,7 @@
 	Автоенкодером називають нейрону мережу яка навчається копіювати свої вхідні дані у вихідні. Така мережа має проміжний шар $h$, який зберігає параметри необхідні для представлення вхідних даних. Таку нейрону мережу можна подати у складі двох частин: функції енкодера $h = f(x)$ та декодера який відтворює $r = g(h)$. Ця архітектура подана на зображенні \ref*{fig:autoencoder-graph}.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.3\textwidth]{resources/autoencoder_graph.png}
+		\includegraphics[width=0.3\textwidth]{resources/autoencoder-graph.png}
 		\caption{Загальна структура автокодера, що відображає вхід $x$ на вихід $r$ (реконструкцію) через внутрішнє представлення $h$. Автокодер складається з двох компонентів: енкодера $f$ (відображення $x$ до $h$) та декодера $g$ (відображення $h$ до $r$) \cite{Goodfellow-et-al-2016}} 
 		\label{fig:autoencoder-graph}
 	\end{figure}
@@ -346,10 +337,10 @@
 	\end{equation}
 	де $\tilde{\boldsymbol{x}}$ є копією $\boldsymbol{x}$ який був пошкоджений деяким шумом. 
 		
-	Отже, такий автоенкодер має не просто відтворити вхідні дані, а ще й відновити пошкодження. Процес тренування автоенкодера заданий на \ref{fig:dae-graph}.
+	Отже, такий автоенкодер має не просто відтворити вхідні дані, а ще й відновити пошкодження. Процес тренування автоенкодера для видалення шуму заданий на \ref{fig:dae-graph}.
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.4\textwidth]{resources/dae_graph.png}
+		\includegraphics[width=0.4\textwidth]{resources/dae-graph.png}
 		\caption{
 			Структура функції витрат для автоенкодера який навчається реконстроювати чисті зображення $x$ з пошкождених. Тренування виконується на основі мінімізації функції втрат: $\tilde{x}$.  $L = - \log p (\boldsymbol {x} | \boldsymbol {h} = f (\tilde {\boldsymbol {x}}))$, де $\tilde {\boldsymbol {x}}$ - пошкоджена версія прикладу $\boldsymbol {x}$, отримана в результаті деякого процесу руйнування $C (\tilde {\boldsymbol {x}} | \boldsymbol {x})$. \cite{Goodfellow-et-al-2016}
 		}
@@ -357,6 +348,10 @@
 	\end{figure}
 		
 	Такий підхід до навчання видалення шуму змушує $f$ та $g$ явно вивчати структуру даних що дозволяє йому ефективно видаляти шум з пошкоджених зображень.
+
+
+	%A very important property of DAEs is that their training criterion (withconditionally Gaussianp(x | h)) makes the autoencoder learn a vector ﬁeld(g(f(x))− x) that estimates the score of the data distribution. This is illustratedin ﬁgure
+
 
 	TODO
 	Автоенкодер доцільно використовувати у випадку коли коли пряма модель $\mathcal{A}$ та чисті зображення є відомі або коли є достатня кількість пар чистих та пошкоджених зображень для тренування нейронної мережі. 
@@ -530,7 +525,7 @@
 		\arg \min_{w, b} J (w, b)
 	\end{equation}
 	Мінімізацію будемо проводити алгоритмом градієнтного спуску. Для цього, спочатку обчислюємо похідну від функції середньо квадратичної похибки останнього шару нейронної мережі.
-	\begin{equation*}
+	\begin{equation}
 		\begin{array}{l}
 			\displaystyle
 			da^{(L, i)}
@@ -570,7 +565,7 @@
 			dz^{(L, i)}
 			\\[0.7cm]
 		\end{array}
-	\end{equation*}
+	\end{equation}
 
 	\begin{comment}
 			\displaystyle
@@ -588,7 +583,7 @@
 	\end{comment}
 
 	Перепишемо похідні в більш компактному вигляді, для всіх шарів нейронної мережі:
-	\begin{equation*}
+	\begin{equation}
 		\begin{array}{l}
 			\displaystyle
 			\frac{\partial J(w, b)}{\partial W^{(l)}} =\frac{1}{m} \sum_{i}^{m} 	\delta^{(l, i)}\left(a^{(l-1, i)}\right)^{\top}
@@ -597,9 +592,9 @@
 			\displaystyle
 			 \frac{\partial J(w, b)}{\partial b^{(l)}} =\frac{1}{m} \sum_{i}^{m} \delta^{(l, i)}
 		\end{array}
-	\end{equation*}
+	\end{equation}
 	де
-	\begin{equation*}
+	\begin{equation}
 		\begin{array}{l}
 		\displaystyle
 			\delta^{(l, i)}
@@ -614,7 +609,7 @@
 				\left((W^{(l)})^{\top} \delta^{(l+1, i)} \right) \sigma^{\prime} (z^{(l, i)}), \quad \text{якщо } l < L
 			\end{array}\right.
 		\end{array}
-	\end{equation*}
+	\end{equation}
 
 	В залежності від активаційної функції визначеної на певному шарі нейронної мережі значення похідної буде відрізнятись. Розглянемо наступні варіанти активаційних функцій:
 	\begin{itemize}	
@@ -685,14 +680,11 @@
 		\end{algorithmic}
 	\end{algorithm}
 
-	\subsection{Датасет}
-	TODO
-	
 	% ============================================ %
 	\newpage
 	\thispagestyle{empty}
-	\section{Реалізація та аналіз}
-	
+	\section{Генерація та оцінка шуму в зображеннях}
+
 	\subsection{Герерація шуму}	
 	Для того щоб застосувати описані методи видалення шуму, необхідно спочатку визначити яким чином цей шум, тобто прямий оперетор $\mathcal{A}$ вибрати. Для цього будемо використовувати адитивний білий гаусівський шум з різними параметрами середньокватдатичного відхилення. Задамо загальну модель адитивного шуму як \ref{additive-noise}.
 	\begin{equation}
@@ -712,14 +704,14 @@
 	де $i = 1\dotsc n$ та $n$ - кількість пікселів. Після додавання шуму до зображення необхідно також виконати по-піксельне обрізання так, щоб$x_i \in [0, 1]$, тобто значення не виходили за межі оригінального зображення.
 	%Більше про шум:
 	%https://stanford.edu/class/ee367/reading/lecture10_notes.pdf
-		
+	
 	\subsection{Оцінка зображень}
 	Для аналізу отриманих результатів необхідно мати метрики того, наскільки зображення оброблені алгоритмом видалення шуму,  відрізняються від оригінальних зображень. Очевидним варіантом є використання середньо квадратичної похибки, яка також використовувалась у штрафній функції нейронної мережі.
 	\begin{equation}
 		M S E(x, y) =\frac{1}{n^2} \sum_{i=0}^{n-1} \sum_{j=0}^{n-1}[x(i, j)-y(i, j)]^{2}
 	\end{equation}
 	де $x$ та $y$ відповідає зображеннями розміром $n \cross n$.
-
+	
 	Однак, зазвичай, така метрика є не найкращим відображення людського сприйнятя зображень. Більш об'єктивною альтернативоє є SSIM (structural similarity index measure) метрика яка була предстадставлена в роботі \cite{1284395}. Вона дає можливіть краще оцінити схожість двох зображень $x$ та $y$ операючись на різницю в структурі всього зображення, а не окремих пікселів. SSIM метрика задається формулою \ref{SSIM}.
 	\begin{equation}
 		\label{SSIM}
@@ -738,12 +730,87 @@
 	\end{itemize}
 	
 	Значення цієї функції змінюється в діапазоні $[-1, 1]$, де $1$ можна отримати у вападку коли зображення однакові.
-			
+	
+	
+	% ============================================ %	
 	%https://www.researchgate.net/publication/283580757_Image_noise_removal_based_on_total_variation
+
+	\newpage
+	\thispagestyle{empty}
+	\section{Реалізація моделі для автоенкодера}
+	
+	\subsection{Датасет}
+
+	Тренувати модель будемо використовуючи MNIST датасет який складається з 70 тис. тренувальних рукописних цифр. Всі зображення є чорно-білими та розмір кожного із них складає $28 \times 28$ пікселів, а значення лежать в проміжку від $[0,255]$. Для пришвидшення тренуваня дані  були нормалізовані до діапазону $[0, 1]$. Весь датасет був поділений на частуну тренувальних та тестових прикладів в пропорції 90/10.
+	
+	
+	\subsection{Архітектура автоенкодера}	
+
+	Для роботи автоенкодера зазвичай достатньо мати по одному шару енкодера та декодера. Однак, глибокі автоенкодери мають додаткові переваги і можуть вивчати більш складні взаємозвязки даних. Можна збільшувати як глибину енкодера для покращення представлення даних, так і декодера для покращення їх відтворення. Однак, збільшення кількості шарів нейронної мережі може суттєво вплинути на час її тренування і тому необхідно вибирати їх отпимальну кількість.
+		
+	Важливим є також вибір розмірності кожного з шарів автоенкодера. Вхідний шар завжди має розмірність зображення, тобто для випаду нашого датасету це 784. Кількість нейронів у вихідному шарі має відповідати кількості нейронів вхідного адже ми прагнемо відновити чисте зображення. Для прихованих шарів автоенкодера, зазвичай вибирають розмір між значеннями вхідного та вихідного шару. 
+	
+	Ключовим гіперпараметром автоеркодера є розмір репрезентаційного шару. Від нього залажить наскільки енкодер буде компресувати вхідну інформаію, що прямо впливає на можливість її подальшого відтворення. Очевидно, що при малому розмірі цього шару модель декодер буде мати менше деталей для відтворення зображення, і як наслідок, буде давати гіршиі результати.  Однак якщо зробити його розмірність занадто великою автоенкодер може просто навчитись копіювати свої вхідні дані у вихідні, не вивчаючи властивостей даних. Такий автоенкодер буде точно реконструювати навчальні дані, але через перетреновання він не зможе коректно працювати з новими прикладами.
+	
+	Отже відповідно до наведених вище критеріїв була побудована наступна архітектура моделі автоенкодера, яка задана таблицею \ref{tab:autoencoder-model}.
+	
+	\newpage
+	\begin{center}
+		\begin{table}[!htbp]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline \tabboxc{10cm}{Шар мережі (активаційна функція)}
+				& \tabboxc{4cm}{Розмірність} \\
+				
+				\hline \multicolumn{2}{|c|}{\tabboxc{2cm}{Енкодер}} \\
+				
+				\hline \tabboxc{4cm}{Dense (Relu)}
+				 & $784 \times 64$ \\
+				
+				\hline \tabboxc{4cm}{Dense (Relu)}
+				& $64\times 32$ \\
+				
+				\hline \multicolumn{2}{|c|}{\tabboxc{2cm}{Декодер}} \\
+	
+				\hline \tabboxc{4cm}{Dense (Sigmoid)}
+				& \tabboxc{3cm}{$32\times784$}\\
+				\hline
+			\end{tabular} 
+			\caption{Архітектура щільної нейронної мережі для автоенкодера.}
+			\label{tab:autoencoder-model}
+		\end{table}
+	\end{center}
+	Як можна побачити для енкодера було вибрано два шари, а для декодера один. Така модель була вибрана емпірично і, як можна буде побачити далі, вона демонструє досить непогані результати по відтворенню зображень. Репрезентаційний шар складається з 32 нейронів що виявилось оптимальним значенням за критерієм точності відтворення даних та часу витраченного на тренування.
 	
 	\subsection{Тренування}
-	TODO
+	Всього були натреновані п'ять моделей для різних занчень стандартного відхилення білого гаусівського шуму. Для тренування кожної з них використовувався однаковий набір гіперпараметрів які задані в таблиці \ref{tab:model-hyperparameters}.
+	\begin{center}
+		\begin{table}[!htbp]
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline \tabboxc{5cm}{Кількість ітерацій}
+				& \tabboxc{5cm}{Розмір minibatch частини}
+				& \tabboxc{5cm}{Швидкість навчання} \\
+				
+				\hline \tabboxc{5cm}{35}
+				& \tabboxc{5cm}{128}
+				& \tabboxc{5cm}{0.015} \\
+				\hline
+			\end{tabular} 
+			\label{tab:model-hyperparameters}
+		\end{table}
+	\end{center}
 	
+	Окрім звичайної штрафної функції, під час тренування також використовувалась SSIM оцінка для аналізу ефективністі відтворення зображень на тестових даних що продемонстровано на графіку \ref{fig:awgn-train-ssim-comparation}.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{resources/awgn-train-ssim-comparation.pdf}
+		\caption{Графік залежності усередненої SSIM оцінки для тестового датасету від кількості ітерацій тренування. $\sigma$ відповідає середньоквадратичному відхиленню гаусівського шуму.}
+		\label{fig:awgn-train-ssim-comparation}
+	\end{figure}
+	
+	\begin{comment}
 	\begin{figure}[H]
 		\minipage[t]{0.49\textwidth}
 		\includegraphics[width=1\textwidth]{resources/training-mse.pdf}
@@ -756,49 +823,105 @@
 		\label{fig:defenses_bench}
 		\endminipage
 	\end{figure}
-	
-	\begin{comment}
-		\begin{tabular}{cccc}
-			\hline & BN $\left(\beta+\gamma+\mu+\sigma^{2}\right)$ & Conv.filters & Total \\
-			\hline conv1 & $64+64+64+64$ & $3 \times 3 \times 2 \times 64$ & 1408 \\
-			conv2 & $64+64+64+64$ & $3 \times 3 \times 64 \times 64$ & 37120 \\
-			$\lambda$ & & & 1 \\
-			\hline
-		\end{tabular}
 	\end{comment}
+	
+	Для порівняння був також розглянутий варіант коли $\sigma = 0$. В такому випадку шум у зображення не додавався. Як можна бачити, існує чітка залежність між рівнем шуму доданим до чистих зображень та ефективністю його відтворення автоенкодером. Для $\sigma = 0$, середнє значення SSIM оцінки активно прямує до 0.8, коли для $\sigma = 1$ вона залишається в околі $0.1$.
 
-	\subsection{Аналіз результатів}	
-	TODO
+	% ============================================ %	
+		
+	\newpage
+	\thispagestyle{empty}
+	\section{Аналіз результатів}
+
+	Для порівняння результатів роботи автоенкодера з класичними методами був також реалізований алгоритм регуляризації Тіхонова з використанням градієнтним пріором в якості регуляризатора.
+	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=1\textwidth]{resources/denoising_methods_comparation.pdf}
+		\includegraphics[width=0.8\textwidth]{resources/denoising-methods-comparation.pdf}
 		\caption{}
 		\label{fig:denoising-methods-comparation}
 	\end{figure}
-		
-	% ============================================ %	
-		
-	% ============================================ %
-	% Вступ
 	
-	%\newpage
-	%\thispagestyle{empty}
-	%\addcontentsline{toc}{section}{Вступ}
-		
-	%\newpage
-	%\thispagestyle{empty}
-	%\addtocontents{toc}{\protect\thispagestyle{empty}}
+	Як можна бачити 
+	
+	
+	\begin{comment}
+	\begin{center}
+		\begin{table}[!htbp]
+			\centering
+			\begin{tabular}{|c|c|c|c|}
+
+				\hline 
+				\tabboxc{6cm}{ cтандартне відхилення $\sigma$} 
+				& \multicolumn{3}{|c|}{\tabboxc{6cm}{SSIM}}
+				\\
+
+				\hline
+				& \tabboxc{2cm}{min} 
+				& \tabboxc{2cm}{mean}
+				& \tabboxc{2cm}{max}			
+				\\
+				
+				\hline
+				0.25
+				& \tabboxc{2cm}{} 
+				& \tabboxc{2cm}{}
+				& \tabboxc{2cm}{}			
+				\\
+
+				\hline
+				0.5
+				& \tabboxc{2cm}{} 
+				& \tabboxc{2cm}{}
+				& \tabboxc{2cm}{}			
+				\\
+
+				\hline
+				0.75
+				& \tabboxc{2cm}{} 
+				& \tabboxc{2cm}{}
+				& \tabboxc{2cm}{}			
+				\\
+
+				\hline
+			\end{tabular} 
+			\caption{Архітектура щільної нейронної мережі для автоенкодера.}
+			\label{tab:noise-comparation}
+		\end{table}
+	\end{center}
+	\end{comment}
+	
+	% ============================================ %
 	\newpage
 	\thispagestyle{empty}
 	\addcontentsline{toc}{section}{Висновок}
 	\section*{Висновок}
 	TODO
 	
+	Although deep learning is developing rapidly, it is not necessarily an effective way to solve the denoising problem. The main reason for this is that real-world denoising processes lack image pairs for training. To the best of our knowledge, the existing denoising methods are all trained by simulated noisy data generated by adding AWGN to clean images. Nevertheless, for the real-world denoising process, we find that the CNNs trained by such simulated data are not sufficiently effective.
+	
+	
 	\newpage
 	\thispagestyle{empty}
 	\addcontentsline{toc}{section}{Додатки}
 	\section*{Додатки}
-	TODO
+	
+	\dod{дод1}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{resources/autoencoder-denoising-samples.pdf}
+		\caption{Приклад видалення шуму за допомогою автоенкодера. Перший ряд чисті зображення, другий - пошкодженні, третій - відновленні}
+		\label{fig:autoencoder-denoising-samples}
+	\end{figure}
+	
+	\dod{дод2}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\textwidth]{resources/denoising-awgn-comparation.pdf}
+		\caption{Порівняння }
+		\label{fig:denoising-awgn-comparation}
+	\end{figure}
+	
 	
 	%============================================ %
 	
@@ -813,7 +936,6 @@
 	\nocite{NIPS2012_6cdd60ea}
 	\nocite{raj2019ganbased}
 	\nocite{Aggarwal_2019}
-	\nocite{kingma2014autoencoding}
 	\printbibliography[title={Література}]
 
 	https://arxiv.org/pdf/1312.6114.pdf

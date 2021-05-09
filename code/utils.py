@@ -127,3 +127,6 @@ def ssim(x, y, shape=(28, 28, 1)):
   #, filter_size=28, filter_sigma=1.5, k1=0.01, k2=0.03
   return float(
     tf.image.ssim(x.reshape(shape), y.reshape(shape), 1))
+
+def mse(x, y):
+    return np.mean((x - y) ** 2)
