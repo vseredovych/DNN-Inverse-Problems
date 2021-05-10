@@ -29,10 +29,10 @@
 	%%%\usetheme{Montpellier}
 	%\usetheme{PaloAlto}
 	%\usetheme{Pittsburgh}
-	%\usetheme{Rochester}
+	%%%\usetheme{Rochester}
 	%\usetheme{Singapore}
-	%\usetheme{Szeged}
-	\usetheme{Warsaw}
+	\usetheme{Szeged}
+	%\usetheme{Warsaw}
 	
 	% As well as themes, the Beamer class has a number of color themes
 	% for any slide theme. Uncomment each of these in turn to see how it
@@ -98,7 +98,7 @@ sorting=none
 \nocite{ongie2020deep}
 \nocite{Goodfellow-et-al-2016}
 \nocite{Adler_2017}
-\nocite{NIPS2012_6cdd60ea}
+\nocite{bank2021autoencoders}
 
 %------------------------------------------------
 %	TITLE PAGE
@@ -136,28 +136,156 @@ sorting=none
 	\section{Постановка задачі} 
 	%------------------------------------------------
 	\begin{frame}
-		Оберненими задачами будемо вважати такі задачі, в яких невідомим є $n-$ піксельне зображення $\boldsymbol{x} \in \mathbb{R}^{n}$ яке було отримане з $m$ вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ відповідно до рівняння
+		\frametitle{Постановка задачі}
+		
+		Оберненими задачами будемо вважати такі задачі, в яких невідомим є $n-\text{піксельне }$ зображення $\boldsymbol{x} \in \mathbb{R}^{n}$ яке було отримане з $m$ вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ відповідно до рівняння \ref{eq:forward-problem}.
 		\begin{block}{}
 			\begin{equation}
 				\label{eq:forward-problem}
 				\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}\right)+\boldsymbol{\varepsilon}
 			\end{equation}
 		\end{block}
-		де $\mathcal{A}$ - це прямий оператор вимірювання та $\boldsymbol{\varepsilon}$ є певним вектором шуму. Метою задачі є відновлення $x$ з $y$. 
+		де $\mathcal{A}$ - це прямий оператор вимірювання та $\boldsymbol{\varepsilon}$ є певним вектором шуму.
 	\end{frame}
 	%------------------------------------------------
-	\section{asdasd}
+	\section{Структура обернених задач}	
+	\begin{frame}
+		Якщо розподіл шуму відомий, $x$ можна відновити розв'язавши задачу оцінки максимальної ймовірності (maximum likelihood) \ref{eq:ML-problem}.
+		\begin{equation}
+			\label{eq:ML-problem}
+			\hat{\boldsymbol{x}}_{\mathrm{ML}}
+			= \arg \max_{\boldsymbol{x}} {p (\boldsymbol{y} | \boldsymbol{x})}
+			= \arg \min_{\boldsymbol{x}} -\log p(\boldsymbol{y} | \boldsymbol{x})
+		\end{equation}
+		де $p(\boldsymbol{y} \mid \boldsymbol{x})$ це ймовірність спостереження $\boldsymbol{y}$ за умови якщо $\boldsymbol{x}$ є справжнім зображенням.
+		
+		В залежності від умов задачі, можуть бути відомі попередні дані про те яким має бути $x$. Ці умови можна використати для формулювання задачі оцінки максимальної апостеріорної ймовірності (maximum a posteriori), що приводить до задачі \ref{eq:MAP-problem}.
+		\begin{equation}
+			\label{eq:MAP-problem}
+			\hat{\boldsymbol{x}}_{\mathrm{MAP}}
+			=
+			\arg \max_{\boldsymbol{x}} p(\boldsymbol{x} | \boldsymbol{y}) 
+			=
+			\arg -\max_{\boldsymbol{x}} {p(\boldsymbol{y} | \boldsymbol{x})} p(\boldsymbol{x})
+			=
+			\arg \min_{\boldsymbol{x}} -\ln p(\boldsymbol{y} | \boldsymbol{x})-\ln p(\boldsymbol{x})
+		\end{equation}
+		
+		Для випадку білого гаусівського шуму, цільову функцію можна сформулювати як:
+		\begin{equation}
+			\label{eq:MAP-avgn}
+			\hat{x}=\arg \min_{x} 	\frac{1}{2}\|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}+\lambda \mathrm{R}(\boldsymbol{x})
+		\end{equation}
+		де  $|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}$ відповідає за правдивість даних та позначає різницю між вихідним та шумним зображеннями, $\mathrm{R}(\boldsymbol{x})$- від'ємний логарифмічний пріор який позначає член регуляризації, а $\lambda$ є параметром регуляризації. Для варіаційних методів видалення шуму, ключовим є пошук відповідного пріору зображення $\mathrm{R}(\boldsymbol{x})$. Варіантами таких пріорів моделі можуть бути градієнтні або розріджені пріори.
+		
+	\end{frame}
 	%------------------------------------------------
+	\section{Генерація шуму та оцінка пошкоджень}
 
+	\begin{frame}
+		Більш об'єктивною альтернативою є SSIM (structural similarity index measure) метрика яка була представлена в роботі.
+		\begin{equation}
+			\label{eq:SSIM}
+			\operatorname{SSIM}(x, y)=\frac{\left(2 \mu_{x} \mu_{y}+c_{1}\right)\left(2 \sigma_{x 	y}+c_{2}\right)}{\left(\mu_{x}^{2}+\mu_{y}^{2}+c_{1}\right)\left(\sigma_{x}^{2}+\sigma_{y}^{2}+c_{2}\right)}
+		\end{equation}
+		де
+		\begin{itemize}
+			\item $\mu_{x}$, $\mu_{y}$  середнє значення $x$, $y$
+			\item $\sigma_{x}^{2}$, $\sigma_{y}^{2}$ дисперсія $x$, $y$
+			\item $\sigma_{x y}$ коваріація $x$ та $y$
+			\item $c_{1}=\left(k_{1} L\right)^{2}, c_{2}=\left(k_{2} L\right)^{2}$
+			\item $L$ - динамічний діапазон пікселів
+			\item $k_{1}=0.01$ та $k_{2}=0.03$ - константи.	
+		\end{itemize}
+	\end{frame}
+	%------------------------------------------------
+	\section{Модель для автоенкодера}
+	\begin{frame}
+			\begin{center}
+			\begin{table}[!htbp]
+				\centering
+				\begin{tabular}{|c|c|}
+					\hline \tabboxc{6cm}{Шар мережі (активаційна функція)}
+					& \tabboxc{4cm}{Розмірність} \\
+					
+					\hline \multicolumn{2}{|c|}{\tabboxc{2cm}{Енкодер}} \\
+					
+					\hline \tabboxc{4cm}{Dense (Relu)}
+					& $784 \times 64$ \\
+					
+					\hline \tabboxc{4cm}{Dense (Relu)}
+					& $64\times 32$ \\
+					
+					\hline \multicolumn{2}{|c|}{\tabboxc{2cm}{Декодер}} \\
+					
+					\hline \tabboxc{4cm}{Dense (Sigmoid)}
+					& \tabboxc{3cm}{$32\times784$}\\
+					\hline
+				\end{tabular} 
+				\caption{Архітектура щільної нейронної мережі для автоенкодера.}
+				\label{tab:autoencoder-model}
+			\end{table}
+		\end{center}
+		
+	\end{frame}
+	%------------------------------------------------
+	\section{Автоенкодер для розв'язування обернених задач}
+	\subsection{Автоенкодер}
+	\begin{frame}
+	\end{frame}
 
+	\begin{frame}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/presentation-autoencoder.pdf}
+			\label{fig:autoencoder}
+		\end{figure}
+	\end{frame}
+
+	\subsection{Автоенкодер для видалення шуму}
+	\begin{frame}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/presentation-dae.pdf}
+			\caption{}
+			\label{fig:danoising-autoencoder}
+		\end{figure}
+	\end{frame}
+	%------------------------------------------------
+	\section{Аналіз результатів}
+
+	\begin{frame}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/awgn-train-ssim-comparation.pdf}
+			\caption{Графік залежності усередненої SSIM оцінки для тестового датасету від кількості ітерацій тренування. $\sigma$ відповідає середньоквадратичному відхиленню гаусівського шуму.}
+			\label{fig:awgn-train-ssim-comparation}
+		\end{figure}
+	\end{frame}
+		
+	\begin{frame}
+		Результати натренованих моделей автоенкодера для видалення шуму можна бачити на зображенні \ref{fig:denoising-awgn-comparation}.
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/denoising-awgn-comparation.pdf}
+			\caption{Порівняння точності реконструкції зображень автоенкодером для різної величини стандартного відхилення $\sigma$ білого шуму Гауса.}
+			\label{fig:denoising-awgn-comparation}
+		\end{figure}
+	\end{frame}
+
+	\begin{frame}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.5\textwidth]{../resources/denoising-methods-comparation.pdf}
+			\caption{Порівняння видалення шуму за допомогою автоенкодера з класичним методом основаним на регуляризації.}
+			\label{fig:denoising-methods-comparation}
+		\end{figure}
+	\end{frame}
 	%------------------------------------------------
 	\begin{frame}
 		\printbibliography[title={Література}]
 	\end{frame}
-	
-	\begin{comment}
-	
-	\end{comment}
 	
 	%------------------------------------------------
 	
