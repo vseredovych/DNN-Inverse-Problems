@@ -29,9 +29,9 @@
 	%%%\usetheme{Montpellier}
 	%\usetheme{PaloAlto}
 	%\usetheme{Pittsburgh}
-	%%%\usetheme{Rochester}
+	\usetheme{Rochester}
 	%\usetheme{Singapore}
-	\usetheme{Szeged}
+	%\usetheme{Szeged}
 	%\usetheme{Warsaw}
 	
 	% As well as themes, the Beamer class has a number of color themes
@@ -75,6 +75,26 @@
 \numberwithin{equation}{section}
 
 %------------------------------------------------
+% custom commands
+
+\newcounter{e}
+\setcounter{e}{0}
+\newcommand{\n}{\refstepcounter{e} (\arabic{e})}
+
+\newcounter{pic}
+\setcounter{pic}{0}
+\newcommand{\pic}[1]{\refstepcounter{pic} \vspace{-0.3cm}\textit{Рисунок \arabic{pic}\label{#1}.}}
+
+\newcounter{tabl}
+\setcounter{tabl}{0}
+\newcommand{\tabl}[1]{\refstepcounter{tabl} \vspace{-0.3cm}\textit{Таблиця \arabic{tabl}\label{#1}.}}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\newcommand{\tran}{^{T}}
+\newcommand{\ith}{^{(i)}}
+\newcommand{\lth}{^{(l)}}
 
 \newcommand{\tabboxl}[2]{\parbox{#1}{\vspace{0.1cm} #2 \vspace{0.1cm} }}
 
@@ -83,9 +103,6 @@
 
 \newcommand{\tabboxc}[2]{\parbox{#1}{\vspace{-0.3cm}
 		\begin{center} #2 \end{center} \vspace{-0.3cm} }}
-
-\newtheorem{thm}{\protect\thmname}
-\renewcommand{\thmname}{Теорема}
 
 %------------------------------------------------
 \usepackage[
@@ -98,7 +115,7 @@ sorting=none
 \nocite{ongie2020deep}
 \nocite{Goodfellow-et-al-2016}
 \nocite{Adler_2017}
-\nocite{bank2021autoencoders}
+\nocite{NIPS2012_6cdd60ea}
 
 %------------------------------------------------
 %	TITLE PAGE
@@ -139,7 +156,7 @@ sorting=none
 		\frametitle{Постановка задачі}
 		
 		Оберненими задачами будемо вважати такі задачі, в яких невідомим є $n-\text{піксельне }$ зображення $\boldsymbol{x} \in \mathbb{R}^{n}$ яке було отримане з $m$ вимірювань $\boldsymbol{y} \in \mathbb{R}^{m}$ відповідно до рівняння \ref{eq:forward-problem}.
-		\begin{block}{}
+		\begin{block}{Загальне подання оберненої задачі}
 			\begin{equation}
 				\label{eq:forward-problem}
 				\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}\right)+\boldsymbol{\varepsilon}
@@ -150,44 +167,82 @@ sorting=none
 	%------------------------------------------------
 	\section{Структура обернених задач}	
 	\begin{frame}
-		Якщо розподіл шуму відомий, $x$ можна відновити розв'язавши задачу оцінки максимальної ймовірності (maximum likelihood) \ref{eq:ML-problem}.
-		\begin{equation}
-			\label{eq:ML-problem}
-			\hat{\boldsymbol{x}}_{\mathrm{ML}}
-			= \arg \max_{\boldsymbol{x}} {p (\boldsymbol{y} | \boldsymbol{x})}
-			= \arg \min_{\boldsymbol{x}} -\log p(\boldsymbol{y} | \boldsymbol{x})
-		\end{equation}
+		\frametitle{Структура обернених задач}
+		\begin{block}{Задача максимальної ймовірності (maximum likelihood)}
+			\begin{equation}
+				\label{eq:ML-problem}
+				\hat{\boldsymbol{x}}_{\mathrm{ML}}
+				= \arg \max_{\boldsymbol{x}} {p (\boldsymbol{y} | \boldsymbol{x})}
+				= \arg \min_{\boldsymbol{x}} -\log p(\boldsymbol{y} | \boldsymbol{x})
+			\end{equation}
+		\end{block}
 		де $p(\boldsymbol{y} \mid \boldsymbol{x})$ це ймовірність спостереження $\boldsymbol{y}$ за умови якщо $\boldsymbol{x}$ є справжнім зображенням.
 		
-		В залежності від умов задачі, можуть бути відомі попередні дані про те яким має бути $x$. Ці умови можна використати для формулювання задачі оцінки максимальної апостеріорної ймовірності (maximum a posteriori), що приводить до задачі \ref{eq:MAP-problem}.
-		\begin{equation}
-			\label{eq:MAP-problem}
-			\hat{\boldsymbol{x}}_{\mathrm{MAP}}
-			=
-			\arg \max_{\boldsymbol{x}} p(\boldsymbol{x} | \boldsymbol{y}) 
-			=
-			\arg -\max_{\boldsymbol{x}} {p(\boldsymbol{y} | \boldsymbol{x})} p(\boldsymbol{x})
-			=
-			\arg \min_{\boldsymbol{x}} -\ln p(\boldsymbol{y} | \boldsymbol{x})-\ln p(\boldsymbol{x})
-		\end{equation}
-		
-		Для випадку білого гаусівського шуму, цільову функцію можна сформулювати як:
-		\begin{equation}
-			\label{eq:MAP-avgn}
-			\hat{x}=\arg \min_{x} 	\frac{1}{2}\|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}+\lambda \mathrm{R}(\boldsymbol{x})
-		\end{equation}
-		де  $|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}$ відповідає за правдивість даних та позначає різницю між вихідним та шумним зображеннями, $\mathrm{R}(\boldsymbol{x})$- від'ємний логарифмічний пріор який позначає член регуляризації, а $\lambda$ є параметром регуляризації. Для варіаційних методів видалення шуму, ключовим є пошук відповідного пріору зображення $\mathrm{R}(\boldsymbol{x})$. Варіантами таких пріорів моделі можуть бути градієнтні або розріджені пріори.
+		\begin{block}{Задача для випадку білого гаусівського шуму }
+			\begin{equation}
+				\label{eq:MAP-avgn}
+				\hat{x}=\arg \min_{x} 	\frac{1}{2}\|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}+\lambda 	\mathrm{R}(\boldsymbol{x})
+			\end{equation}
+		\end{block}
+		де, $\mathrm{R}(\boldsymbol{x})$ - член регуляризації, а $\lambda$ є параметром регуляризації.
 		
 	\end{frame}
 	%------------------------------------------------
-	\section{Генерація шуму та оцінка пошкоджень}
-
+	\section{Автоенкодер для розв'язування обернених задач}
+	\subsection{Автоенкодер}
 	\begin{frame}
-		Більш об'єктивною альтернативою є SSIM (structural similarity index measure) метрика яка була представлена в роботі.
-		\begin{equation}
-			\label{eq:SSIM}
-			\operatorname{SSIM}(x, y)=\frac{\left(2 \mu_{x} \mu_{y}+c_{1}\right)\left(2 \sigma_{x 	y}+c_{2}\right)}{\left(\mu_{x}^{2}+\mu_{y}^{2}+c_{1}\right)\left(\sigma_{x}^{2}+\sigma_{y}^{2}+c_{2}\right)}
-		\end{equation}
+		\frametitle{Автоенкодер}
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/autoencoder.pdf}
+			\label{fig:autoencoder}
+			\caption{Загальна структура автоенкодера, що відображає "оригінальне зображення"\ на "відтворене зображення"\ через внутрішнє представлення "код". }
+		\end{figure}
+	\end{frame}
+
+	\subsection{Автоенкодер для видалення шуму}
+	\begin{frame}
+		\frametitle{Автоенкодер для видалення шуму}
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{../resources/dae.pdf}
+			\caption{
+				Структура функції витрат для автоенкодера який навчається реконструювати оригінальні зображення $x$ з пошкоджених деяким випадковим шумом.}
+			\label{fig:danoising-autoencoder}
+		\end{figure}
+	\end{frame}
+	%------------------------------------------------
+	\section{Реалізація моделі для автоенкодера}
+
+	\subsection{Оцінка реконструкції}
+	\begin{frame}
+		\frametitle{Оцінка реконструкції}
+		\begin{block}{MSE штрафна функція}
+			\begin{equation}
+				\label{eq:cost-function}
+				J(\omega, b) =  \frac{1}{m}  \sum_{i=1}^{m} L(a^{(L, i)}, y\ith)
+			\end{equation}
+		\end{block}
+		\begin{block}{Функція втрати для одного набору елементів за $L_2$ нормою}
+			\begin{equation}
+				\label{eq:loss-function}
+				L(a^{(l, i)}, y\ith)  =  \frac{1}{2}  \| a^{(l, i)}  - y\ith \|_{L_2}^{2} = \frac{1}{2} \sum_{j=1}^{n}  (a^{(l, i)}_j -  y\ith_j)^2
+			\end{equation}
+		\end{block}
+	\end{frame}
+	
+	%------------------------------------------------
+	\subsection{Оцінка зображень}
+	\begin{frame}
+		\frametitle{Оцінка зображень}
+		\begin{block}{SSIM (structural similarity index measure) оцінка зображень.}
+			\begin{equation}
+				\label{eq:SSIM}
+				\operatorname{SSIM}(x, y)=\frac{\left(2 \mu_{x} \mu_{y}+c_{1}\right)\left(2 \sigma_{x 			y}+c_{2}\right)}{\left(\mu_{x}^{2}+\mu_{y}^{2}+c_{1}\right)\left(\sigma_{x}^{2}+\sigma_{y}^{2}+c_{2}\right)}
+			\end{equation}
+		\end{block}
 		де
 		\begin{itemize}
 			\item $\mu_{x}$, $\mu_{y}$  середнє значення $x$, $y$
@@ -198,10 +253,13 @@ sorting=none
 			\item $k_{1}=0.01$ та $k_{2}=0.03$ - константи.	
 		\end{itemize}
 	\end{frame}
-	%------------------------------------------------
-	\section{Модель для автоенкодера}
+	
+	\subsection{Архітектура моделі для автоенкодера}
 	\begin{frame}
-			\begin{center}
+		\frametitle{Архітектура моделі для автоенкодера}
+
+	Була побудована модель автоенкодера, яка задана таблицею \ref{tab:autoencoder-model}.
+		\begin{center}
 			\begin{table}[!htbp]
 				\centering
 				\begin{tabular}{|c|c|}
@@ -226,61 +284,48 @@ sorting=none
 				\label{tab:autoencoder-model}
 			\end{table}
 		\end{center}
+	\end{frame}
+
+	\subsection{Тренування}
+	\begin{frame}
+		\frametitle{Тренування}
 		
-	\end{frame}
-	%------------------------------------------------
-	\section{Автоенкодер для розв'язування обернених задач}
-	\subsection{Автоенкодер}
-	\begin{frame}
-	\end{frame}
-
-	\begin{frame}
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=1\textwidth]{../resources/presentation-autoencoder.pdf}
-			\label{fig:autoencoder}
-		\end{figure}
-	\end{frame}
-
-	\subsection{Автоенкодер для видалення шуму}
-	\begin{frame}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{../resources/presentation-dae.pdf}
-			\caption{}
-			\label{fig:danoising-autoencoder}
-		\end{figure}
-	\end{frame}
-	%------------------------------------------------
-	\section{Аналіз результатів}
-
-	\begin{frame}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{../resources/awgn-train-ssim-comparation.pdf}
-			\caption{Графік залежності усередненої SSIM оцінки для тестового датасету від кількості ітерацій тренування. $\sigma$ відповідає середньоквадратичному відхиленню гаусівського шуму.}
+			\includegraphics[width=0.8\textwidth]{../resources/awgn-train-ssim-comparation.pdf}
+			\caption{Графік залежності усередненої SSIM оцінки для тестового датасету від кількості ітерацій тренування. $\sigma$ відповідає стандартному відхиленню гаусівського шуму.}
 			\label{fig:awgn-train-ssim-comparation}
 		\end{figure}
 	\end{frame}
+
+	%------------------------------------------------
+	\section{Аналіз результатів}
 		
 	\begin{frame}
-		Результати натренованих моделей автоенкодера для видалення шуму можна бачити на зображенні \ref{fig:denoising-awgn-comparation}.
+		\frametitle{Результати роботи автоенкодера для видалення}
 		
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=1\textwidth]{../resources/denoising-awgn-comparation.pdf}
-			\caption{Порівняння точності реконструкції зображень автоенкодером для різної величини стандартного відхилення $\sigma$ білого шуму Гауса.}
+			\caption{Порівняння точності реконструкції зображень автоенкодером для різної величини стандартного відхилення $\sigma$ білого шуму.}
 			\label{fig:denoising-awgn-comparation}
 		\end{figure}
 	\end{frame}
 
 	\begin{frame}
+		\frametitle{Порівняння роботи автоенкодера з регуляризацією}
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.5\textwidth]{../resources/denoising-methods-comparation.pdf}
 			\caption{Порівняння видалення шуму за допомогою автоенкодера з класичним методом основаним на регуляризації.}
 			\label{fig:denoising-methods-comparation}
 		\end{figure}
+	\end{frame}
+	%------------------------------------------------
+	\section{Висновок}	
+	\begin{frame}
+		\frametitle{Висновок}
+		За результатами експериментів можна сказати, що побудована модель глибокого навчання є досить ефективною у розв'язанні розглянутої оберненої задачі. Вона успішно впоралась з видаленням шуму при його низьких показниках та дала прийнятні результати для його надмірної кількості. Варто зазначити, що автоенкодер продемонстрував себе значно краще в порівнянні з методом регуляризації. Можна стверджувати що використання глибокого навчання для розв'язання поставленої обернених задачі по видаленню шуму є ефективним підходом.
 	\end{frame}
 	%------------------------------------------------
 	\begin{frame}
