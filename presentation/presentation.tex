@@ -72,7 +72,7 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 
-\numberwithin{equation}{section}
+\setbeamertemplate{caption}[numbered]
 
 %------------------------------------------------
 % custom commands
@@ -89,8 +89,8 @@
 \setcounter{tabl}{0}
 \newcommand{\tabl}[1]{\refstepcounter{tabl} \vspace{-0.3cm}\textit{Таблиця \arabic{tabl}\label{#1}.}}
 
-\numberwithin{equation}{section}
-\numberwithin{figure}{section}
+%\numberwithin{equation}{section}
+%\numberwithin{figure}{section}
 
 \newcommand{\tran}{^{T}}
 \newcommand{\ith}{^{(i)}}
@@ -125,7 +125,7 @@ sorting=none
 \title[Short title]{Використання глибокого навчання для обернених задач} 
 
  % Your name
-\author{Середович Віктор}
+\author{Середович Віктор \\ Науковий керівник: Музичук Ю.А.}
 
  % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
 \institute[UCLA]
@@ -162,13 +162,13 @@ sorting=none
 				\boldsymbol{y}=\mathcal{A}\left(\boldsymbol{x}\right)+\boldsymbol{\varepsilon}
 			\end{equation}
 		\end{block}
-		де $\mathcal{A}$ - це прямий оператор вимірювання та $\boldsymbol{\varepsilon}$ є певним вектором шуму.
+		де $\mathcal{A}$ - це прямий оператор вимірювання та $\boldsymbol{\varepsilon}$ є певним вектором шуму. Необхідно відновити $x$.
 	\end{frame}
 	%------------------------------------------------
 	\section{Структура обернених задач}	
 	\begin{frame}
 		\frametitle{Структура обернених задач}
-		\begin{block}{Задача максимальної ймовірності (maximum likelihood)}
+		\begin{block}{Задача оцінки максимальної ймовірності (maximum likelihood)}
 			\begin{equation}
 				\label{eq:ML-problem}
 				\hat{\boldsymbol{x}}_{\mathrm{ML}}
@@ -178,14 +178,29 @@ sorting=none
 		\end{block}
 		де $p(\boldsymbol{y} \mid \boldsymbol{x})$ це ймовірність спостереження $\boldsymbol{y}$ за умови якщо $\boldsymbol{x}$ є справжнім зображенням.
 		
-		\begin{block}{Задача для випадку білого гаусівського шуму }
+		\begin{block}{Задача максимальної апостеріорної ймовірності}
+			\begin{equation}
+				\label{eq:MAP-problem}
+				\hat{\boldsymbol{x}}_{\mathrm{MAP}}
+				=
+				\arg \max_{\boldsymbol{x}} {p(\boldsymbol{y} | 	\boldsymbol{x})} p(\boldsymbol{x})
+				=
+				\arg \min_{\boldsymbol{x}} -\ln p(\boldsymbol{y} | 	\boldsymbol{x})-\ln p(\boldsymbol{x})
+			\end{equation}
+	\end{block}
+
+	\end{frame}	
+				
+	\begin{frame}
+		\frametitle{Регуляризація}
+		
+		\begin{block}{Задача регуляризації для випадку білого гаусівського шуму }
 			\begin{equation}
 				\label{eq:MAP-avgn}
 				\hat{x}=\arg \min_{x} 	\frac{1}{2}\|\mathcal{A}(\boldsymbol{x})-\boldsymbol{y}\|_{2}^{2}+\lambda 	\mathrm{R}(\boldsymbol{x})
 			\end{equation}
 		\end{block}
 		де, $\mathrm{R}(\boldsymbol{x})$ - член регуляризації, а $\lambda$ є параметром регуляризації.
-		
 	\end{frame}
 	%------------------------------------------------
 	\section{Автоенкодер для розв'язування обернених задач}
@@ -209,7 +224,7 @@ sorting=none
 			\centering
 			\includegraphics[width=1\textwidth]{../resources/dae.pdf}
 			\caption{
-				Структура функції витрат для автоенкодера який навчається реконструювати оригінальні зображення $x$ з пошкоджених деяким випадковим шумом.}
+				Структура автоенкодера який навчається реконструювати оригінальні зображення $x$ з пошкоджених деяким випадковим шумом..}
 			\label{fig:danoising-autoencoder}
 		\end{figure}
 	\end{frame}
@@ -286,9 +301,9 @@ sorting=none
 		\end{center}
 	\end{frame}
 
-	\subsection{Тренування}
+	\subsection{Тренування моделі}
 	\begin{frame}
-		\frametitle{Тренування}
+		\frametitle{Тренування моделі}
 		
 		\begin{figure}[H]
 			\centering
@@ -302,7 +317,7 @@ sorting=none
 	\section{Аналіз результатів}
 		
 	\begin{frame}
-		\frametitle{Результати роботи автоенкодера для видалення}
+		\frametitle{Результати роботи автоенкодера для видалення шуму}
 		
 		\begin{figure}[H]
 			\centering
@@ -325,7 +340,7 @@ sorting=none
 	\section{Висновок}	
 	\begin{frame}
 		\frametitle{Висновок}
-		За результатами експериментів можна сказати, що побудована модель глибокого навчання є досить ефективною у розв'язанні розглянутої оберненої задачі. Вона успішно впоралась з видаленням шуму при його низьких показниках та дала прийнятні результати для його надмірної кількості. Варто зазначити, що автоенкодер продемонстрував себе значно краще в порівнянні з методом регуляризації. Можна стверджувати що використання глибокого навчання для розв'язання поставленої обернених задачі по видаленню шуму є ефективним підходом.
+		За результатами експериментів можна сказати, що побудована модель глибокого навчання є досить ефективною у розв'язанні розглянутої оберненої задачі. Вона успішно впоралась з видаленням шуму при його низьких показниках та дала прийнятні результати для його надмірної кількості. Варто зазначити, що автоенкодер продемонстрував себе значно краще в порівнянні з методом регуляризації. Можна стверджувати що використання глибокого навчання для розв'язання поставленої обернених задач по видаленню шуму є ефективним підходом.
 	\end{frame}
 	%------------------------------------------------
 	\begin{frame}
